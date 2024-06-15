@@ -1,6 +1,3 @@
-/**
- * Нужно превратить файл в ts и указать типы аргументов и типы возвращаемого значения
- * */
 export const removePlus = (string: string): string => string.replace(/^\+/, '');
 
 export const addPlus = (string: string): string => `+${string}`;
@@ -55,11 +52,34 @@ export const hex2rgb = (color: string): number[] => {
 };
 
 export const getNumberedArray = <T>(arr: T[]): { value: T; number: number }[] => arr.map((value, number) => ({ value, number }));
-export const toStringArray = (arr) => arr.map(({ value, number }) => `${value}_${number}`);
 
-export const transformCustomers = (customers) => {
-  return customers.reduce((acc, customer) => {
+type Item = {
+  value: string;
+  number: number;
+}
+
+export const toStringArray = (arr: Item[]): string[] => arr.map(({ value, number }) => `${value}_${number}`);
+
+
+interface Customer {
+  id: string;
+  name: string;
+  age: number;
+  isSubscribed: boolean;
+}
+
+interface TransformedCustomers {
+  [key: string]: {
+    name: string;
+    age: number;
+    isSubscribed: boolean;
+  };
+}
+
+export const transformCustomers = (customers: Customer[]): TransformedCustomers => {
+  return customers.reduce((acc: TransformedCustomers, customer: Customer) => {
     acc[customer.id] = { name: customer.name, age: customer.age, isSubscribed: customer.isSubscribed };
     return acc;
   }, {});
 };
+
